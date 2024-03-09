@@ -12,25 +12,25 @@
 ### Strapi
 #### Création du projet
 La première étape est de créer une application strapi :
-``` shell
+``` console
 yarn create strapi-app s_app
 ```
 
 #### Ajout du Dockerfile et du .env
 On y créer le dockerfile, .dockignore(optionel) et le .env
 > Confère ./Dockerfile_strapi
-``` shell
+``` console
 cp Dockerfile_strapi s_app/Dockerfile
 ```
 
 #### Lancement
 On peut lancer créer et lancer le container comme ceci:
 ##### Build
-``` shell
+``` console
 docker build -t strapi .
 ```
 ##### Run
-``` shell
+``` console
 docker run -dit strapi --name strapi -e DATABASE_HOST=\<host\> -e DATABASE_USER=\<user\> -e DATABASE_PASSWORD=\<psw\>
 ```
 > Ici les variables d'environnement sont stocké dans les .env
