@@ -1,9 +1,8 @@
 # Projet OPSCI - Rendu
-## Etudiants
-##### Nom       Prénom   N. étudiant
-BAMHAOUD  Yassine  21110685\n
-NARDON    Enzo     21117476
-TODO
+## Etudiants (Groupe)
+ - BAMHAOUD  Yassine  21110685
+ - NARDON    Enzo     21117476
+ - TODO
 
 ## Setup
 ### Backend
