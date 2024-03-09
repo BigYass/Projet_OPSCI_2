@@ -1,4 +1,6 @@
 # Projet OPSCI - Rendu
+Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la Sorbonne Université.
+
 ## Etudiants (Groupe)
  - BAMHAOUD  Yassine  21110685
  - NARDON    Enzo     21117476
