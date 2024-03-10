@@ -2,7 +2,7 @@
 Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la Sorbonne Université.
 
 ## Vidéo présentation
-(https://www.youtube.com/watch?v=VGG0S_nnaI4)
+[![OPSCI_miniature.png](https://img.youtube.com/vi/VGG0S_nnaI4/0.jpg)](https://www.youtube.com/watch?v=VGG0S_nnaI4)
 
 ## Etudiants (Groupe)
  - BAMHAOUD  Yassine  21110685
