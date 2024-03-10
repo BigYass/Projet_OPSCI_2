@@ -49,15 +49,16 @@ services:
 
   front-end:
     container_name: front-end
-    build:
-      context: ./opsci-strapi-frontend/
-      dockerfile: Dockerfile
+    image: front-end:latest
+    build: ./opsci-strapi-frontend/
     ports:
       - '5173:5173'
-    depends_on:
-      - strapi
     networks:
       - strapi
+    depends_on:
+      - strapi
+    volumes:
+      - ./opsci-strapi-frontend/src/conf.ts:/opt/src/conf.ts
 
 volumes:
   strapi-data:
@@ -65,5 +66,5 @@ volumes:
 
 networks:
   strapi:
-    name: strapi 
+    name: Strapi 
     driver: bridge

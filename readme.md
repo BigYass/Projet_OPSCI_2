@@ -1,6 +1,9 @@
 # Projet OPSCI - Rendu
 Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la Sorbonne Université.
 
+## Vidéo présentation
+(https://www.youtube.com/watch?v=VGG0S_nnaI4)
+
 ## Etudiants (Groupe)
  - BAMHAOUD  Yassine  21110685
  - NARDON    Enzo     21117476
@@ -12,44 +15,44 @@ Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la 
 > Géré par le docker-compose.yml (l.33)
 
 ### Strapi
-#### Création du projet
-La première étape est de créer une application strapi :
 ``` console
 yarn create strapi-app s_app
 ```
 
-#### Ajout du Dockerfile et du .env
-On y créer le dockerfile, .dockignore(optionel) et le .env
-> Confère ./Dockerfile_strapi
-``` console
-cp Dockerfile_strapi s_app/Dockerfile
-```
+>>> Le Dockerfile, .dockignore et .env sont déjà présent
 
 ### Front-end
 ``` console
 git clone https://github.com/arthurescriou/opsci-strapi-frontend 
 ```
-
+> Attention à changer conf.ts
 [Voir le repo...](https://github.com/arthurescriou/opsci-strapi-frontend)
 
+## Docker-Compose
+### Containers
 
-## Containers (docker-compose.yml)
-### Base de données
-
-Postgres:
+#### Base de données
  - Nom : strapiDB
  - Environnement : (Cf. docker-compose.yml)
  - Utilisateur: strapi
  - Mot de Passe : 123
- - Version : latest (16.0)
+ - Version : latest
  - Port : 5432
 
-Strapi:
+#### Strapi
  - Nom : strapi
  - Environnement: s_app/.env (.env égallement)
  - Port : 1337
+ - Dépend: strapiDB
  
-Front-End:
+#### Front-end
  - Nom: front-end
  - Config: src/conf.ts
  - Port : 5173
+ - Dépend: strapi
+
+### Networks
+strapi:
+  - Nom: Strapi
+  - Type: Bridge
+  - Containers: 3

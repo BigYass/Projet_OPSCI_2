@@ -1,3 +1,3 @@
 export const TOKEN =
   '23e146e793d6079f77fbe8797af941adb43ad5d4742be6bc6c8c1cccc93cb37b9fb47a72819dce16fd0c94f7c657bb6904be4eb335d3e0fbea0380608ddeef7d8871d482812efb1100c85e461eadf8926ff1153997b355e2daa11b971f00109964c2fef6b47e0ac1894686312bb85ee7ff6802bd8dec328610e0de507c78e5e1'
-export const URL = 'http://strapi:1337'
+export const URL = 'http://localhost:1337'
