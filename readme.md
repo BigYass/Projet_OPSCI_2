@@ -20,6 +20,7 @@ yarn create strapi-app s_app
 ```
 
 >>> Le Dockerfile, .dockignore et .env sont déjà présent
+>>> Le programme sera lancer dans un container
 
 ### Front-end
 ``` console
@@ -27,6 +28,29 @@ git clone https://github.com/arthurescriou/opsci-strapi-frontend
 ```
 > Attention à changer conf.ts
 [Voir le repo...](https://github.com/arthurescriou/opsci-strapi-frontend)
+
+### Docker
+> Il faut changer les variables d'environnement de la base de données dans le docker-compose.yml
+> Changer le .env à la racine
+
+#### Build
+``` console
+docker-compose build --no-cache
+```
+
+#### Lancement
+``` console
+docker-compose up -d
+```
+
+#### Arrêt
+``` console
+docker-compose down
+```
+
+### Product et API TOKENS
+Il est temps de setup strapi
+1. Après avoir lancer strapi et la base de données. Il faut accéder au panel administrateur à l'url http://localhost:1337
 
 ## Docker-Compose
 ### Containers
