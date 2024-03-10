@@ -52,6 +52,18 @@ docker-compose down
 Il est temps de setup strapi
 1. Après avoir lancer strapi et la base de données. Il faut accéder au panel administrateur à l'url http://localhost:1337
 
+2. Ajouter un token pour le front end dans les paramètres
+
+3. Copier le token dans le conf.ts (si vous utiliser le docker-compose, pas besoin de rebuild)
+
+4. Ensuite créer la collection product
+
+5. Créer quelques produits sans quoi le front-end ne fonctionne pas (Failed to fetch <URL>)
+
+6. Vous pouvez lancer le front et devez voir les produits apparaître (Miam burger valouz)
+
+7. Mettez 20/20 à ce projet on mérite
+
 ## Docker-Compose
 ### Containers
 
