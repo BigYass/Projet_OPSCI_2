@@ -2,13 +2,13 @@ version: "3"
 services:
   strapi:
     container_name: strapi
-    build: ./s_app/
+    build: s_app/
+    env_file: .env
     image: strapi:latest
     restart: unless-stopped
-    env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_HOST: strapiDB
+      DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
@@ -33,12 +33,10 @@ services:
   strapiDB:
     container_name: strapiDB
     restart: unless-stopped
-    env_file: .env
     image: postgres:latest
     environment:
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: 123
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
       - strapi-db-data:/usr/src/app/data
@@ -56,11 +54,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - '5173:5173'
-    env_file: ./s_app/.env
     depends_on:
       - strapi
-    volumes:
-      - strapi-db-data:/usr/src/app/data
     networks:
       - strapi
 
@@ -70,4 +65,5 @@ volumes:
 
 networks:
   strapi:
+    name: strapi 
     driver: bridge

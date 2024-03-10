@@ -3,4 +3,4 @@ RUN apk update
 WORKDIR /opt
 COPY . .
 RUN yarn install 
-CMD ["yarn", "dev"]
+CMD ["yarn", "dev", "--host", "0.0.0.0"]

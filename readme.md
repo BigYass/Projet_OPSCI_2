@@ -25,17 +25,31 @@ On y créer le dockerfile, .dockignore(optionel) et le .env
 cp Dockerfile_strapi s_app/Dockerfile
 ```
 
-#### Lancement
-On peut lancer créer et lancer le container comme ceci:
-##### Build
+### Front-end
 ``` console
-docker build -t strapi .
+git clone https://github.com/arthurescriou/opsci-strapi-frontend 
 ```
-##### Run
-``` console
-docker run -dit strapi --name strapi -e DATABASE_HOST=\<host\> -e DATABASE_USER=\<user\> -e DATABASE_PASSWORD=\<psw\>
-```
-> Ici les variables d'environnement sont stocké dans les .env
 
-Le docker-compose s'occupera de créer le container de la base de données.
-Ici postgres:latest
+[Voir le repo...](https://github.com/arthurescriou/opsci-strapi-frontend)
+
+
+## Containers (docker-compose.yml)
+### Base de données
+
+Postgres:
+ - Nom : strapiDB
+ - Environnement : (Cf. docker-compose.yml)
+ - Utilisateur: strapi
+ - Mot de Passe : 123
+ - Version : latest (16.0)
+ - Port : 5432
+
+Strapi:
+ - Nom : strapi
+ - Environnement: s_app/.env (.env égallement)
+ - Port : 1337
+ 
+Front-End:
+ - Nom: front-end
+ - Config: src/conf.ts
+ - Port : 5173
