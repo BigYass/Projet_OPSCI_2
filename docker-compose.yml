@@ -1,5 +1,41 @@
 version: "3"
 services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - '2181:2181'
+    expose:
+      - '2181'
+
+  kafka:
+    image: wurstmeister/kafka:2.11-1.1.1
+    container_name: kafka
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://localhost:9093,OUTSIDE://kafka:9092,
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_DELETE_TOPIC_ENABLE: 'true'
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKAJS_NO_PARTITIONER_WARNING: '1'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_NO_LISTENER_AUTHENTICATION_PLAINTEXT: 'true'
+      KAFKA_NO_LISTENER_AUTHENTICATION_SSL: 'true'
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_LOG_RETENTION_BYTES: 1073741824
+      KAFKA_LOG_DIRS: /kafka/logs
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - zookeeper
+  
   strapi:
     container_name: strapi
     build: s_app/
@@ -59,6 +95,124 @@ services:
       - strapi
     volumes:
       - ./opsci-strapi-frontend/src/conf.ts:/opt/src/conf.ts
+
+  event_consumer:
+    container_name: event_consumer
+    build: ./event-consumer
+    image: event_consumer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      STRAPI_TOKEN: ${STRAPI_TOKEN}
+      STRAPI_URL: ${STRAPI_URL}
+      TOPIC: ${EVENT_TOPIC}
+      BEGINNING: ${BEGINNING}
+      ERROR_TOPIC: ${ERROR_TOPIC}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
+
+  event_producer:
+    container_name: event_producer
+    build: ./event-producer
+    image: event_producer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      TOPIC: ${EVENT_TOPIC}
+      FILE_NAME: ${FILE_NAME_EVENT}
+      ERROR_TOPIC: ${ERROR_TOPIC}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
+
+  product_consumer:
+    container_name: product_consumer
+    build: ./product-consumer
+    image: product_consumer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      STRAPI_URL: ${STRAPI_URL}
+      STRAPI_TOKEN: ${STRAPI_TOKEN}
+      TOPIC: ${PRODUCT_TOPIC}
+      ERROR_TOPIC: ${ERROR_TOPIC}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
+
+  product_producer:
+    container_name: product_producer
+    build: ./product-producer
+    image: product_producer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      TOPIC: ${PRODUCT_TOPIC}
+      FILE_NAME: ${FILE_NAME_PRODUCT}
+      ERROR_TOPIC: ${ERROR_TOPIC}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
+
+  stock_consumer:
+    container_name: stock_consumer
+    build: ./stock-consumer
+    image: stock_consumer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      STRAPI_TOKEN: ${STRAPI_TOKEN}
+      STRAPI_URL: ${STRAPI_URL}
+      TOPIC: ${STOCK_TOPIC}
+      BEGINNING: ${BEGINNING}
+      ERROR_TOPIC: ${ERROR_TOPIC}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
+
+  stock_producer:
+    container_name: stock_producer
+    build: ./stock-producer
+    image: stock_producer:latest
+    restart: on-failure
+    env_file: .env
+    environment:
+      BROKER_1: ${BROKER_1}
+      BROKER_2: ${BROKER_2}
+      BROKER_3: ${BROKER_3}
+      TOPIC: ${STOCK_TOPIC}
+      FILE_NAME: ${FILE_NAME_STOCK}
+    depends_on:
+      - kafka
+      - projet-strapi
+    networks:
+      - strapi-network
 
 volumes:
   strapi-data:

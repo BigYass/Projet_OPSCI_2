@@ -1,3 +1,7 @@
-./*-consumer
-./*-producer
-./yarn.lock
+*-consumer/
+*-producer/
+s_app/
+opsci-strapi-frontend/
+
+yarn.lock
+.yarn-intergrity
