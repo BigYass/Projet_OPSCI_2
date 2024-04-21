@@ -7,6 +7,8 @@ services:
       - '2181:2181'
     expose:
       - '2181'
+    networks:
+      - strapi
 
   kafka:
     image: wurstmeister/kafka:2.11-1.1.1
@@ -31,10 +33,13 @@ services:
       KAFKA_LOG_RETENTION_HOURS: 168
       KAFKA_LOG_RETENTION_BYTES: 1073741824
       KAFKA_LOG_DIRS: /kafka/logs
+      KAFKA_CREATE_TOPICS: "event:1:1, product:1:1, stock:1:1, errors:1:1"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       - zookeeper
+    networks:
+     - strapi
   
   strapi:
     container_name: strapi
@@ -113,9 +118,9 @@ services:
       ERROR_TOPIC: ${ERROR_TOPIC}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
   event_producer:
     container_name: event_producer
@@ -128,13 +133,13 @@ services:
       BROKER_2: ${BROKER_2}
       BROKER_3: ${BROKER_3}
       TOPIC: ${EVENT_TOPIC}
-      FILE_NAME: ${FILE_NAME_EVENT}
+      FILE_NAME: ${EVENT_FILE_NAME}
       ERROR_TOPIC: ${ERROR_TOPIC}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
   product_consumer:
     container_name: product_consumer
@@ -152,9 +157,9 @@ services:
       ERROR_TOPIC: ${ERROR_TOPIC}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
   product_producer:
     container_name: product_producer
@@ -167,13 +172,13 @@ services:
       BROKER_2: ${BROKER_2}
       BROKER_3: ${BROKER_3}
       TOPIC: ${PRODUCT_TOPIC}
-      FILE_NAME: ${FILE_NAME_PRODUCT}
+      FILE_NAME: ${PRODUCT_FILE_NAME}
       ERROR_TOPIC: ${ERROR_TOPIC}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
   stock_consumer:
     container_name: stock_consumer
@@ -192,9 +197,9 @@ services:
       ERROR_TOPIC: ${ERROR_TOPIC}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
   stock_producer:
     container_name: stock_producer
@@ -207,12 +212,12 @@ services:
       BROKER_2: ${BROKER_2}
       BROKER_3: ${BROKER_3}
       TOPIC: ${STOCK_TOPIC}
-      FILE_NAME: ${FILE_NAME_STOCK}
+      FILE_NAME: ${STOCK_FILE_NAME}
     depends_on:
       - kafka
-      - projet-strapi
+      - strapi
     networks:
-      - strapi-network
+      - strapi
 
 volumes:
   strapi-data:

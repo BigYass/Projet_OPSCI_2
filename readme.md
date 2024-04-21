@@ -1,5 +1,5 @@
 # Projet OPSCI - Rendu
-Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la Sorbonne Université.
+Projet intermédiaire 2 pour la matière OPSCI, dans le cursus informatique de la Sorbonne Université.
 
 ## Vidéo présentation
 [![OPSCI_miniature.png](https://img.youtube.com/vi/VGG0S_nnaI4/0.jpg)](https://www.youtube.com/watch?v=VGG0S_nnaI4)
@@ -12,7 +12,7 @@ Projet intermédiaire pour la matière OPSCI, dans le cursus informatique de la 
 ## Setup
 
 ### Base de donnée
-> Géré par le docker-compose.yml (l.33)
+> Géré par le docker-compose.yml
 
 ### Strapi
 ``` console
