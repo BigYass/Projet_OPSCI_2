@@ -5,3 +5,6 @@ opsci-strapi-frontend/
 
 yarn.lock
 .yarn-intergrity
+
+# Exception
+!s_app/conf.ts
